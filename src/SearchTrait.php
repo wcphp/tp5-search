@@ -70,7 +70,7 @@ trait SearchTrait
         if(!$resList->isEmpty()){
             $searchData = $resList->append($this->getSceneSearchAppendField())->hidden($this->getSceneSearchHiddenField())->toArray();
         }
-        return $search = ['lists'=>$searchData,'total'=>$total];
+        return $search = ['list'=>$searchData,'total'=>$total];
     }
 
     /**
