@@ -23,7 +23,6 @@ trait SearchTrait
     //搜索场景
     protected $searchScene = '';
 
-
     /**
      * 搜索查询接收参数方法
      * @param array $searchParam 控制器接收的查询参数
@@ -64,7 +63,6 @@ trait SearchTrait
                     $this->setOption($key,$option);
                 }
             }
-
             $total = $this->where($search->where)->whereOr($search->whrerOr)->count();
             cache($key,$total,1);
         }
@@ -155,7 +153,6 @@ trait SearchTrait
         return $appendField;
     }
 
-
     /**
      * 获取搜索返回隐藏字段
      * Author: kk <weika@wcphp.com>
@@ -172,7 +169,6 @@ trait SearchTrait
         }
         return $hiddenField;
     }
-
 
     /**
      * 根据搜索场景获取搜索查询规则，搜索场景为空，默认返回第一个
@@ -224,6 +220,7 @@ trait SearchTrait
         }
         return $sceneField;
     }
+
 
 
 
