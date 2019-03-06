@@ -200,8 +200,8 @@ trait SearchTrait
         //查询是否有连表
         if(!empty($sceneField)){
 
-            if(!empty($this->searchOption['join'])){
-                $tableStr = empty($this->searchOption['alias']) ? $this->getTable() : array_shift($this->searchOption['alias']);
+            if(!empty(self::$searchOption['join'])){
+                $tableStr = empty(self::$searchOption['alias']) ? $this->getTable() : array_shift(self::$searchOption['alias']);
                 $filed = [];
                 foreach($sceneField as $key=>$item){
                     if(is_int($key)){

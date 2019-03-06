@@ -82,28 +82,36 @@ class SearchLib
     protected function tidySymbol($symbol,$param,$data,$default=null){
         $res = false;
         $symbol = strtolower($symbol);
-        if($symbol == 'time'){
+        if($symbol == 'time') {
             //区间时间
-            if(is_array($param)){
-                $startDate = isset($data[$param[0]])?$data[$param[0]]:""; //update james rh 20171031
-                $endDate = isset($data[$param[1]])?$data[$param[1]]:"";   //update james rh 20171031
-                if(!empty($startDate) && !empty($endDate)){
-                    $startDate = date('Y-m-d 00:00:00',strtotime($startDate));
-                    $endDate = date('Y-m-d 23:59:59',strtotime($endDate));
-                    $res = $startDate == $endDate ? ['eq',$startDate] : ['between time',[$startDate,$endDate]];
-                }elseif(!empty($startDate)){
-                    $startDate = date('Y-m-d 00:00:00',strtotime($startDate));
-                    $res = ['egt',$startDate];
-                }elseif(!empty($endDate)){
-                    $endDate = date('Y-m-d 23:59:59',strtotime($endDate));
-                    $res = ['elt',$endDate];
+            if (is_array($param)) {
+                $startDate = isset($data[$param[0]]) ? $data[$param[0]] : ""; //update james rh 20171031
+                $endDate = isset($data[$param[1]]) ? $data[$param[1]] : "";   //update james rh 20171031
+                if (!empty($startDate) && !empty($endDate)) {
+                    $startDate = date('Y-m-d 00:00:00', strtotime($startDate));
+                    $endDate = date('Y-m-d 23:59:59', strtotime($endDate));
+                    $res = $startDate == $endDate ? ['eq', $startDate] : ['between time', [$startDate, $endDate]];
+                } elseif (!empty($startDate)) {
+                    $startDate = date('Y-m-d 00:00:00', strtotime($startDate));
+                    $res = ['egt', $startDate];
+                } elseif (!empty($endDate)) {
+                    $endDate = date('Y-m-d 23:59:59', strtotime($endDate));
+                    $res = ['elt', $endDate];
                 }
                 //等于这个时间
-            }else{
-                if(!empty($data[$param])){
-                    return date('Y-m-d H:i:s',strtotime($data['$param']));
+            } else {
+                if (!empty($data[$param])) {
+                    return date('Y-m-d H:i:s', strtotime($data['$param']));
                 }
             }
+           // 指定某一天
+        }elseif($symbol == 'day'){
+            if(!is_array($param) && ($dateStr =  !empty($data[$param]) ? $data[$param] : (empty($default) ? '' : $default))){
+                $startDate = date('Y-m-d 00:00:00', strtotime($dateStr));
+                $endDate = date('Y-m-d 23:59:59', strtotime($dateStr));
+                $res = ['between time', [$startDate, $endDate]];
+            }
+
         }elseif($symbol == 'like'){
             if(isset($data[$param]) && $data[$param] !==''){
                 $value =(string)$data[$param];
