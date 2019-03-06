@@ -6,7 +6,7 @@
 //+----------------------------------------------------------------------
 
 namespace WcSearch;
-use WcSearch\lib\SearchLib;
+use WcSearch\util\SearchUtil;
 
 trait SearchTrait
 {
@@ -32,7 +32,7 @@ trait SearchTrait
     final public function searchQuery($searchCondition,$searchScene=''){
         empty($searchScene) || $this->searchScene = $searchScene;
         self::$searchOption = $this->getOptions();
-        $searchData = $this-> _searchQuery(SearchLib::tidy($this->getSceneSearchRule(),$searchCondition));
+        $searchData = $this-> _searchQuery(SearchUtil::tidy($this->getSceneSearchRule(),$searchCondition));
         return $searchData;
     }
 

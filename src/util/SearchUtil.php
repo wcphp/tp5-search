@@ -5,11 +5,11 @@
 // | Author: kk <weika@wcphp.com>
 // +----------------------------------------------------------------------
 
-namespace WcSearch\lib;
+namespace WcSearch\util;
 
 use think\Db;
 
-class SearchLib
+class SearchUtil
 {
     protected $where = [];
     protected $whereOr = [];
