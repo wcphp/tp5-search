@@ -51,26 +51,12 @@ trait SearchTrait
             ->order($search->order)
             ->page($search->page)
             //->fetchSql(true)
-            ->select();
-        //总条数1秒
-        $key = md5($this->getLastSql());
-
-        if(empty($total = cache($key))){
-            //查询参数默认值设置
-
-            if(!empty($this->searchOption) && is_array($this->searchOption)){
-                foreach($this->searchOption as $key=>$option){
-                    $this->setOption($key,$option);
-                }
-            }
-            $total = $this->where($search->where)->whereOr($search->whrerOr)->count();
-            cache($key,$total,1);
-        }
+            ->paginate();
         $searchData = [];
         if(!$resList->isEmpty()){
             $searchData = $resList->append($this->getSceneSearchAppendField())->hidden($this->getSceneSearchHiddenField())->toArray();
         }
-        return $search = ['list'=>$searchData,'total'=>$total];
+        return $search = ['list'=>$searchData['data'] ?? [],'total'=>$searchData['total'] ?? 0];
     }
 
     /**
@@ -91,18 +77,18 @@ trait SearchTrait
      */
     public function addField($fields=[],$tableStr=''){
         if(!empty($fields)){
-           if(!empty($tableStr)) {//加表前缀
-               $filed = [];
-               foreach($fields as $key=>$item){
-                   if(is_int($key)){
-                       $filed[$key] = $tableStr.'.'.$item;
-                   }else{
-                       $key = $tableStr.'.'.$key;
-                       $filed[$key] = $item;
-                   }
-               }
-               $fields = $filed;
-           }
+            if(!empty($tableStr)) {//加表前缀
+                $filed = [];
+                foreach($fields as $key=>$item){
+                    if(is_int($key)){
+                        $filed[$key] = $tableStr.'.'.$item;
+                    }else{
+                        $key = $tableStr.'.'.$key;
+                        $filed[$key] = $item;
+                    }
+                }
+                $fields = $filed;
+            }
             $this->addField = array_merge( $this->addField,$fields);
         }
         return $this;
@@ -190,11 +176,12 @@ trait SearchTrait
      * 获取搜索查询字段
      * Author: kk <weika@wcphp.com>
      */
-    public function getSearchField(){
+    public function getSearchField($searchScene=''){
         $sceneFieldConf = $this->sceneFieldConf();
         $sceneField = [];
-        if(!empty($sceneFieldConf) && !empty($this->searchScene)){
-            $sceneField = $sceneFieldConf[$this->searchScene] ?? array_shift($sceneFieldConf);
+        $searchScene = empty($searchScene) ? $this->searchScene : $searchScene;
+        if(!empty($sceneFieldConf) && !empty($searchScene)){
+            $sceneField = $sceneFieldConf[$searchScene] ?? array_shift($sceneFieldConf);
         }
 
         //查询是否有连表
