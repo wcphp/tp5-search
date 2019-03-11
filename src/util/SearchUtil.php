@@ -181,21 +181,7 @@ class SearchUtil
         }else{
             $res .=',' .  20;
         }
-       // echo $res;exit;
         $this->page = $res;
     }
-
-    /**
-     * @param mixed
-     */
-    public function __get($name)
-    {
-        if(isset($this->$name)){
-            return $this->$name;
-        }else{
-            return '';
-        }
-    }
-
 
 }

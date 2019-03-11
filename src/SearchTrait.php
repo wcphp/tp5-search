@@ -77,18 +77,18 @@ trait SearchTrait
      */
     public function addField($fields=[],$tableStr=''){
         if(!empty($fields)){
-            if(!empty($tableStr)) {//加表前缀
-                $filed = [];
-                foreach($fields as $key=>$item){
-                    if(is_int($key)){
-                        $filed[$key] = $tableStr.'.'.$item;
-                    }else{
-                        $key = $tableStr.'.'.$key;
-                        $filed[$key] = $item;
-                    }
-                }
-                $fields = $filed;
-            }
+           if(!empty($tableStr)) {//加表前缀
+               $filed = [];
+               foreach($fields as $key=>$item){
+                   if(is_int($key)){
+                       $filed[$key] = $tableStr.'.'.$item;
+                   }else{
+                       $key = $tableStr.'.'.$key;
+                       $filed[$key] = $item;
+                   }
+               }
+               $fields = $filed;
+           }
             $this->addField = array_merge( $this->addField,$fields);
         }
         return $this;
