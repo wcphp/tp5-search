@@ -49,9 +49,9 @@ trait SearchTrait
             ->field($this->getSearchField())
             ->whereOr($search->whrerOr)
             ->order($search->order)
-            ->page($search->page)
             //->fetchSql(true)
-            ->paginate();
+            ->paginate($search->page['pageSize'],false,['page'=>$search->page['pageNum']]);
+
         $searchData = [];
         if(!$resList->isEmpty()){
             $searchData = $resList->append($this->getSceneSearchAppendField())->hidden($this->getSceneSearchHiddenField())->toArray();

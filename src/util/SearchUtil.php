@@ -151,15 +151,15 @@ class SearchUtil
             //  'order'=>['字段'=>['提交字段','asc']]], asc   desc
 
         $res = [];
-           foreach($order as $key=>$item){
-               if(is_array($item) && (empty($item[0]) || empty($data[$item[0]]))&& isset($item[1]) && in_array(strtolower($item[1]),['asc','desc'])) {
-                   $res = array_merge($res, [$key => strtolower($item[1])]);
-               }elseif(is_array($item) && isset($item[0]) && isset($data[$item[0]]) && in_array(strtolower($data[$item[0]]),['asc','desc'])){
-                   $res = array_merge($res, [$key => strtolower($data[$item[0]])]);
-               }elseif(is_string($item) && isset($data[$item]) && in_array(strtolower($data[$item]),['asc','desc'])){
-                   $res = array_merge($res,[$key=>strtolower($data[$item])]);
-               }
-           }
+        foreach($order as $key=>$item){
+            if(is_array($item) && (empty($item[0]) || empty($data[$item[0]]))&& isset($item[1]) && in_array(strtolower($item[1]),['asc','desc'])) {
+                $res = array_merge($res, [$key => strtolower($item[1])]);
+            }elseif(is_array($item) && isset($item[0]) && isset($data[$item[0]]) && in_array(strtolower($data[$item[0]]),['asc','desc'])){
+                $res = array_merge($res, [$key => strtolower($data[$item[0]])]);
+            }elseif(is_string($item) && isset($data[$item]) && in_array(strtolower($data[$item]),['asc','desc'])){
+                $res = array_merge($res,[$key=>strtolower($data[$item])]);
+            }
+        }
         $this->order = $res;
     }
     /**
@@ -167,19 +167,19 @@ class SearchUtil
      */
     protected  function tidyPage($page,$data){
         if(isset($page[0]) && is_numeric($page[0])){
-            $res = $page[0];
+            $res['pageNum'] = $page[0];
         }elseif(isset($page[0]) && isset($data[$page[0]])){
-            $res = (int)$data[$page[0]];
+            $res['pageNum'] = (int)$data[$page[0]];
         }else{
-            $res =1;
+            $res['pageNum'] =1;
         }
 
         if(isset($page[1]) && is_numeric($page[1])){
-            $res .=',' .  $page[1];
+            $res['pageSize'] =$page[1];
         }elseif(isset($page[1]) && isset($data[$page[1]])){
-            $res .=',' .   (int)$data[$page[1]];
+            $res['pageSize'] =  (int)$data[$page[1]];
         }else{
-            $res .=',' .  20;
+            $res['pageSize'] = 20;
         }
         $this->page = $res;
     }
