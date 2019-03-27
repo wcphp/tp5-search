@@ -11,10 +11,10 @@ use think\Db;
 
 class SearchUtil
 {
-    protected $where = [];
-    protected $whereOr = [];
-    protected $order = [];
-    protected $page = '';
+    public $where = [];
+    public $whereOr = [];
+    public $order = [];
+    public $page = '';
     protected static  $obj ='';
     /**
      * 处理搜索条件

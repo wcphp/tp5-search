@@ -47,7 +47,7 @@ trait SearchTrait
         $resList = $this->where($search->where)
             //查询返回字段
             ->field($this->getSearchField())
-            ->whereOr($search->whrerOr)
+            ->whereOr($search->whereOr)
             ->order($search->order)
             //->fetchSql(true)
             ->paginate($search->page['pageSize'],false,['page'=>$search->page['pageNum']]);
